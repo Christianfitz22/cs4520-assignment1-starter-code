@@ -1,16 +1,14 @@
 package com.cs4520.assignment1
 
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.internal.ContextUtils.getActivity
+import com.cs4520.assignment4.R
+import com.cs4520.assignment4.databinding.ProductItemBinding
 
 enum class ProductType {
     FOOD, EQUIPMENT
@@ -19,26 +17,33 @@ enum class ProductType {
 data class ProductEntry(val name: String, val type: ProductType, val date: String?, val price: Int)
 
 class ProductAdaptor : RecyclerView.Adapter<ProductAdaptor.ProductViewHolder>() {
+    var items = ArrayList<ProductData>()
+
+    fun setData(data: ArrayList<ProductData>) {
+        this.items = data
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false)
-        return ProductViewHolder(view)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ProductItemBinding.inflate(layoutInflater)
+        return ProductViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val parameterList = productsDataset[position]
+        val nextProduct = items[position]
         val nextType: ProductType
-        if ((parameterList[1] as String) == "Food") {
+        if (nextProduct.type == "Food") {
             nextType = ProductType.FOOD
         } else {
             nextType = ProductType.EQUIPMENT
         }
         val nextDate: String?
-        if (parameterList[2] == null) {
+        if (nextProduct.expiryDate == null) {
             nextDate = null
         } else {
-            nextDate = parameterList[2] as String
+            nextDate = nextProduct.expiryDate
         }
-        val nextEntry = ProductEntry(parameterList[0] as String, nextType, nextDate, parameterList[3] as Int)
+        val nextEntry = ProductEntry(nextProduct.name, nextType, nextDate, nextProduct.price)
         holder.bind(nextEntry)
     }
 
@@ -46,16 +51,20 @@ class ProductAdaptor : RecyclerView.Adapter<ProductAdaptor.ProductViewHolder>() 
         return productsDataset.size
     }
 
-    inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val productNameView: TextView = itemView.findViewById(R.id.nameText)
-        private val productDateView: TextView = itemView.findViewById(R.id.dateText)
-        private val productPriceView: TextView = itemView.findViewById(R.id.priceText)
-        private val productFrame: View = itemView.findViewById(R.id.productFrame)
-        private val productImage: ImageView = itemView.findViewById(R.id.productImage)
+    inner class ProductViewHolder(val binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val productNameView: TextView = binding.nameText
+        private val productDateView: TextView = binding.dateText
+        private val productPriceView: TextView = binding.priceText
+        private val productFrame: View = binding.productFrame
+        private val productImage: ImageView = binding.productImage
 
         fun bind(entry: ProductEntry) {
             productNameView.text = entry.name
-            productDateView.text = entry.date
+            if (entry.date == null) {
+                productDateView.visibility = View.GONE;
+            } else {
+                productDateView.text = entry.date
+            }
             productPriceView.text = entry.price.toString()
             if (entry.type == ProductType.FOOD) {
                 productFrame.setBackgroundColor(Color.parseColor("#FFD965"))
