@@ -30,6 +30,10 @@ class ProductAdaptor : RecyclerView.Adapter<ProductAdaptor.ProductViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
+        println("On Bind View Holder began")
+        if (position >= items.size) {
+            return
+        }
         val nextProduct = items[position]
         val nextType: ProductType
         if (nextProduct.type == "Food") {

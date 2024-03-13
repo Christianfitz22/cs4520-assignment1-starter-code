@@ -2,8 +2,6 @@ package com.cs4520.assignment1
 
 import com.google.gson.annotations.SerializedName
 
-data class ProductResponseModel(val items: ArrayList<ProductData>)
-
 data class ProductData(
     @SerializedName("name")
     val name: String,

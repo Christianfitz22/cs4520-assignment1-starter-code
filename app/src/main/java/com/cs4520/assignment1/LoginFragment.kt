@@ -36,6 +36,7 @@ class LoginFragment : Fragment() {
             } else {
                 errorText.visibility = View.VISIBLE
                 Toast.makeText(activity, "Provided login is invalid.", Toast.LENGTH_SHORT).show()
+                println("provided login is invalid")
             }
         }
 

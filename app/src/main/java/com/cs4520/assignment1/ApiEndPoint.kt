@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface ApiEndPoint {
     @GET(Api.ENDPOINT)
-    fun getProductList(): Call<ProductResponseModel>
+    fun getProductList(): Call<ArrayList<ProductData>>
 }
