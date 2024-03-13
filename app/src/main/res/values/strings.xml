@@ -4,4 +4,6 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="provided_login_is_invalid">Provided login is invalid.</string>
+    <string name="no_products_available">No products available.</string>
+    <string name="random_error_occurred">Random error occurred.</string>
 </resources>

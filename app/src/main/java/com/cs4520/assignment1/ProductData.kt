@@ -10,4 +10,4 @@ data class ProductData(
     @SerializedName("expiryDate")
     val expiryDate: String?,
     @SerializedName("price")
-    val price: Int)
+    val price: Double)

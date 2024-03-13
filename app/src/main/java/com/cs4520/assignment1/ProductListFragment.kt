@@ -39,17 +39,18 @@ class ProductListFragment : Fragment() {
 
     private fun initObserver() {
         println("init Observer function began")
-        // it here should be arraylist of product data rather than object
         productViewModel.productResponseData.observe(viewLifecycleOwner, Observer {
-            // rather than it here, we can use viewModel.ResponseData.value
             if (it != null) {
-                // progressbar.visibility = gone
-                // binding.textView.visbility = hone
-                // viewmodel setadapterdata to viewModel.ResponseData.value
+                binding.progressBar.visibility = View.GONE
                 productViewModel.setAdaptorData(it)
                 println("items gotten: " + it.size)
+                if (it.size == 0) {
+                    binding.noProductText.visibility = View.VISIBLE
+                }
             } else {
-                Toast.makeText(requireContext(), "Error fetching data", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "Error fetching data", Toast.LENGTH_SHORT).show()
+                binding.productErrorText.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
                 println("error fetching data")
             }
         })
