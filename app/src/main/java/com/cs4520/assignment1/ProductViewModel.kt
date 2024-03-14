@@ -31,7 +31,6 @@ class ProductViewModel() : ViewModel() {
 
     fun setAdaptorData(data: ArrayList<ProductData>) {
         productAdaptor.setData(data)
-        productAdaptor.notifyDataSetChanged()
     }
 
     fun makeApiCall() {
