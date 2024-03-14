@@ -42,9 +42,10 @@ class ProductListFragment : Fragment() {
         productViewModel.productResponseData.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 binding.progressBar.visibility = View.GONE
-                productViewModel.setAdaptorData(it)
-                println("items gotten: " + it.size)
-                if (it.size == 0) {
+                val itFiltered = filterData(it)
+                productViewModel.setAdaptorData(itFiltered)
+                println("items gotten: " + itFiltered.size)
+                if (itFiltered.size == 0) {
                     binding.noProductText.visibility = View.VISIBLE
                 }
             } else {
@@ -54,5 +55,26 @@ class ProductListFragment : Fragment() {
                 println("error fetching data")
             }
         })
+    }
+
+    private fun filterData(data: ArrayList<ProductData>): ArrayList<ProductData> {
+        val result = ArrayList<ProductData>()
+        val dataIterator = data.iterator()
+
+        println("data length: " + data.size)
+
+        while (dataIterator.hasNext()) {
+            val nextProduct = dataIterator.next()
+            if (result.contains(nextProduct)) {
+                println(nextProduct.name + " skipped")
+            } else {
+                println(nextProduct.name + " seen")
+                result.add(nextProduct)
+            }
+        }
+
+        println("result length: " + result.size)
+
+        return result
     }
 }

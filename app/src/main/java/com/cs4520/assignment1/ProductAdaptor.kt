@@ -21,6 +21,7 @@ class ProductAdaptor : RecyclerView.Adapter<ProductAdaptor.ProductViewHolder>() 
 
     fun setData(data: ArrayList<ProductData>) {
         this.items = data
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -31,9 +32,6 @@ class ProductAdaptor : RecyclerView.Adapter<ProductAdaptor.ProductViewHolder>() 
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         println("On Bind View Holder began")
-        if (position >= items.size) {
-            return
-        }
         val nextProduct = items[position]
         val nextType: ProductType
         if (nextProduct.type == "Food") {
@@ -52,7 +50,7 @@ class ProductAdaptor : RecyclerView.Adapter<ProductAdaptor.ProductViewHolder>() 
     }
 
     override fun getItemCount(): Int {
-        return productsDataset.size
+        return items.size
     }
 
     inner class ProductViewHolder(val binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root) {
