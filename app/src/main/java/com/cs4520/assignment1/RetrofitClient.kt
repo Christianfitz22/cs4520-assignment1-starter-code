@@ -13,5 +13,12 @@ class RetrofitClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
+
+        fun makeRetrofitService(): RetrofitService {
+            return Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build().create(RetrofitService::class.java)
+        }
     }
 }
