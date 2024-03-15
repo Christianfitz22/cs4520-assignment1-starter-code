@@ -10,12 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.cs4520.assignment4.databinding.ProductListFragmentBinding
 
 class ProductListFragment : Fragment() {
     private lateinit var productViewModel: ProductViewModel
     private var _binding: ProductListFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var database: ProductDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +30,13 @@ class ProductListFragment : Fragment() {
 
         val recyclerView: RecyclerView = binding.productRecyclerView
         recyclerView.adapter = ProductAdaptor()
+
+        database = Room.databaseBuilder(
+            requireContext(),
+            ProductDatabase::class.java, "product_list")
+            .allowMainThreadQueries().build()
+
+        DatabaseHolder.database = database
 
         productViewModel = ViewModelProvider(this, ProductViewModelFactory())[ProductViewModel::class.java]
 
